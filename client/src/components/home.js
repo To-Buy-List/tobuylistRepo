@@ -1,11 +1,11 @@
 import React from "react";
 
-var List = () => {
+var Home = () => {
   return (
     <div>
-      <h3>The List</h3>
+      <h3>Home</h3>
     </div>
   );
 };
 
-export default List;
+export default Home;
