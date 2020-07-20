@@ -1,11 +1,11 @@
 import React from "react";
 
-var List = () => {
+var Wallet = () => {
   return (
     <div>
-      <h3>The List</h3>
+      <h3>Wallet</h3>
     </div>
   );
 };
 
-export default List;
+export default Wallet;

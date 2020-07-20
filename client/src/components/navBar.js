@@ -9,14 +9,15 @@ class Nav extends Component {
     return (
       <nav>
         <ul className="nav-links">
-          <li>Name</li>
+          <Link style={navStyle} to="/wallet">
+            <li>Wallet</li>
+          </Link>
           <Link style={navStyle} to="/addItem">
             <li>Add Items</li>
           </Link>
           <Link style={navStyle} to="/list">
             <li>The List</li>
           </Link>
-          <li>Balance</li>
         </ul>
       </nav>
     );
