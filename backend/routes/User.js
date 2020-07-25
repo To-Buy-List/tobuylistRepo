@@ -4,6 +4,7 @@ const passport = require("passport");
 const passportConfig = require("../passport");
 const JWT = require("jsonwebtoken");
 const User = require("../models/User");
+const List = require("../models/List");
 
 //we'll sign the token and by signing it we'll be creating it
 const signToken = (userID) => {
@@ -87,6 +88,74 @@ userRouter.get(
   (req, res) => {
     const { username } = req.user;
     res.status(200).json({ isAuthenticated: true, user: { username } });
+  }
+);
+
+/********************************************************************************* 
+List Routers 
+*********************************************************************************/
+
+// Saving in the List route
+//passport.authenticated because you have to be logged in in order to create an item
+userRouter.post(
+  "/item",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //from the client
+    const list = new List(req.body);
+    list.save((err) => {
+      if (err)
+        res.status(500).json({
+          message: { msgBody: "Error in the database", msgError: true },
+        });
+      else {
+        //adding the item within our items array in user schema
+        req.user.list.push(list);
+        req.user.save((err) => {
+          if (err)
+            res.status(500).json({
+              message: {
+                msgBody: "Error saving in the database",
+                msgError: true,
+              },
+            });
+          else
+            res.status(200).json({
+              message: {
+                msgBody: "Successfully saved the item",
+                msgError: false,
+              },
+            });
+        });
+      }
+    });
+  }
+);
+
+//Getting all the items from the database route
+userRouter.get(
+  "/items",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findById({ _id: req.user._id })
+      .populate("items")
+      .exec((err, document) => {
+        if (err)
+          res.status(500).json({
+            message: {
+              msgBody: "Error has occured",
+              msgError: true,
+            },
+          });
+        else {
+          List.find()
+            .where("_id")
+            .in(document.list)
+            .exec((err, records) => {
+              res.status(200).json({ items: records, authenticate: true });
+            });
+        }
+      });
   }
 );
 
