@@ -2,11 +2,13 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import Authservice from "../Services/AuthService";
 import { AuthContext } from "../Context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const Nav = (props) => {
   var navStyle = {
     color: "white",
   };
+  let history = useHistory();
 
   const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
     AuthContext
@@ -17,6 +19,7 @@ const Nav = (props) => {
       if (data.success) {
         setUser(data.user);
         setIsAuthenticated(false);
+        history.push("/signin");
       }
     });
   };
