@@ -31,7 +31,7 @@ const AddItem = (props) => {
   };
 
   const onChange = (e) => {
-    setItem({ item: e.target.value, price: e.target.price });
+    setItem({ ...item, [e.target.name]: e.target.value });
   };
 
   const resetForm = () => {
