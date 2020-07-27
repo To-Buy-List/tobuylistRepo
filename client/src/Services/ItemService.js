@@ -23,4 +23,19 @@ export default {
       } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
     });
   },
+  //to delete an item
+  deleteItem: (id) => {
+    return fetch("user/deleteItem", {
+      method: "POST",
+      body: JSON.stringify({ id: id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      // you have to be authenticated to post an Item
+      if (response.status !== 401) {
+        return response.json();
+      } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
+    });
+  },
 };
