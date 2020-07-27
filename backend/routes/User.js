@@ -159,4 +159,30 @@ userRouter.get(
   }
 );
 
+//deleting an item from the list
+userRouter.post(
+  "/deleteItem",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    List.deleteOne({ _id: req.body.id }, function (err) {
+      if (!err) {
+        console.log(err);
+        res.status(200).json({
+          message: {
+            msgBody: "Successfully Deleted the item",
+            msgError: false,
+          },
+        });
+      } else {
+        res.status(500).json({
+          message: {
+            msgBody: "Error deleting the item",
+            msgError: true,
+          },
+        });
+      }
+    });
+  }
+);
+
 module.exports = userRouter;
