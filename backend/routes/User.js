@@ -5,6 +5,7 @@ const passportConfig = require("../passport");
 const JWT = require("jsonwebtoken");
 const User = require("../models/User");
 const List = require("../models/List");
+const Wallet = require("../models/Wallet");
 
 //we'll sign the token and by signing it we'll be creating it
 const signToken = (userID) => {
@@ -166,7 +167,6 @@ userRouter.post(
   (req, res) => {
     List.deleteOne({ _id: req.body.id }, function (err) {
       if (!err) {
-        console.log(err);
         res.status(200).json({
           message: {
             msgBody: "Successfully Deleted the item",
@@ -177,6 +177,126 @@ userRouter.post(
         res.status(500).json({
           message: {
             msgBody: "Error deleting the item",
+            msgError: true,
+          },
+        });
+      }
+    });
+  }
+);
+
+//clear list item router
+// userRouter
+//   .post
+// "/clearItems",
+// passport.authenticate("jwt", { session: false }),
+// (req, res) => {
+//   List.deleteOne({ _id: req.body.id }, function (err) {
+//     if (!err) {
+//       console.log(err);
+//       res.status(200).json({
+//         message: {
+//           msgBody: "Successfully Deleted the item",
+//           msgError: false,
+//         },
+//       });
+//     } else {
+//       res.status(500).json({
+//         message: {
+//           msgBody: "Error deleting the item",
+//           msgError: true,
+//         },
+//       });
+//     }
+//   });
+// }
+// ();
+
+/********************************************************************************* 
+Wallet Routers 
+*********************************************************************************/
+
+//saving the amount of money user have
+userRouter.post(
+  "/wallet",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    //from the client
+    const wallet = new Wallet(req.body);
+    wallet.save((err) => {
+      if (err)
+        res.status(500).json({
+          message: { msgBody: "Error in the database", msgError: true },
+        });
+      else {
+        //adding the item within our items array in user schema
+        req.user.wallet = wallet;
+        req.user.save((err) => {
+          if (err)
+            res.status(500).json({
+              message: {
+                msgBody: "Error saving in the database",
+                msgError: true,
+              },
+            });
+          else
+            res.status(200).json({
+              message: {
+                msgBody: "Successfully saved the Money in Wallet",
+                msgError: false,
+              },
+            });
+        });
+      }
+    });
+  }
+);
+
+//Getting money from in wallet from the database route
+userRouter.get(
+  "/walletMoney",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findById({ _id: req.user._id })
+      .populate("money")
+      .exec((err, document) => {
+        if (err)
+          res.status(500).json({
+            message: {
+              msgBody: "Error has occured",
+              msgError: true,
+            },
+          });
+        else {
+          Wallet.find()
+            .where("_id")
+            .in(document.wallet)
+            .exec((err, records) => {
+              res.status(200).json({ wallet: records, authenticate: true });
+            });
+        }
+      });
+  }
+);
+
+//deleting the wallet data
+userRouter.post(
+  "/deleteWallet",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.body.id);
+    Wallet.deleteOne({ _id: req.body.id }, function (err) {
+      if (!err) {
+        res.status(200).json({
+          message: {
+            msgBody: "Successfully cleared money",
+            msgError: false,
+          },
+        });
+      } else {
+        res.status(500).json({
+          message: {
+            msgBody: "Error deleting the money",
             msgError: true,
           },
         });

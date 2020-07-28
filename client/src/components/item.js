@@ -10,7 +10,6 @@ const Item = (props) => {
     ItemService.deleteItem(id).then((data) => {
       const { message } = data;
       if (!message.msgError) {
-        // ItemService.getItems();
       } else if (message.msgBody === "UnAuthorized") {
         //this means that the jwt token has expired
         setMessage(message);
