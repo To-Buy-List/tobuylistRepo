@@ -2,6 +2,7 @@ import React, { useState, useContext } from "react";
 import ItemService from "../Services/ItemService";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
+import { Link } from "react-router-dom";
 
 const AddItem = (props) => {
   const [item, setItem] = useState({
@@ -69,6 +70,11 @@ const AddItem = (props) => {
 
           <div>
             <button type="submit">Add</button>
+          </div>
+          <div>
+            <Link to="/list">
+              <button type="button">Next</button>
+            </Link>
           </div>
         </form>
         {message ? <Message message={message} /> : null}

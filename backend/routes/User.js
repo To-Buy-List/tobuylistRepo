@@ -167,7 +167,6 @@ userRouter.post(
   (req, res) => {
     List.deleteOne({ _id: req.body.id }, function (err) {
       if (!err) {
-        console.log(err);
         res.status(200).json({
           message: {
             msgBody: "Successfully Deleted the item",
@@ -247,6 +246,59 @@ userRouter.post(
                 msgError: false,
               },
             });
+        });
+      }
+    });
+  }
+);
+
+//Getting money from in wallet from the database route
+userRouter.get(
+  "/walletMoney",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    User.findById({ _id: req.user._id })
+      .populate("money")
+      .exec((err, document) => {
+        if (err)
+          res.status(500).json({
+            message: {
+              msgBody: "Error has occured",
+              msgError: true,
+            },
+          });
+        else {
+          Wallet.find()
+            .where("_id")
+            .in(document.wallet)
+            .exec((err, records) => {
+              res.status(200).json({ wallet: records, authenticate: true });
+            });
+        }
+      });
+  }
+);
+
+//deleting the wallet data
+userRouter.post(
+  "/deleteWallet",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    console.log(req.body.id);
+    Wallet.deleteOne({ _id: req.body.id }, function (err) {
+      if (!err) {
+        res.status(200).json({
+          message: {
+            msgBody: "Successfully cleared money",
+            msgError: false,
+          },
+        });
+      } else {
+        res.status(500).json({
+          message: {
+            msgBody: "Error deleting the money",
+            msgError: true,
+          },
         });
       }
     });

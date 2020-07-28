@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 var List = (props) => {
   const [items, setItems] = useState([]);
-  //it needs to be filled
 
   //equilivant to componentDidMount
   useEffect(() => {
