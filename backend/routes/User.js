@@ -5,7 +5,7 @@ const passportConfig = require("../passport");
 const JWT = require("jsonwebtoken");
 const User = require("../models/User");
 const List = require("../models/List");
-const Wallet = require("../models/Wallet");
+const atob = require("atob");
 
 //we'll sign the token and by signing it we'll be creating it
 const signToken = (userID) => {
@@ -19,6 +19,22 @@ const signToken = (userID) => {
     "Rand13"
   );
 };
+
+//to parse the token
+function parseJwt(token) {
+  var base64Url = token.split(".")[1];
+  var base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+  var jsonPayload = decodeURIComponent(
+    atob(base64)
+      .split("")
+      .map(function (c) {
+        return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
+      })
+      .join("")
+  );
+
+  return JSON.parse(jsonPayload);
+}
 
 //signing up route
 userRouter.post("/signup", (req, res) => {
@@ -221,9 +237,8 @@ userRouter.post(
   "/wallet",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    //from the client
-    const wallet = new Wallet(req.body);
-    wallet.save((err) => {
+    const { username, wallet } = req.body;
+    User.findOne({ username }, (err, user) => {
       if (err)
         res.status(500).json({
           message: { msgBody: "Error in the database", msgError: true },
@@ -257,49 +272,16 @@ userRouter.get(
   "/walletMoney",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
-    User.findById({ _id: req.user._id })
-      .populate("money")
-      .exec((err, document) => {
-        if (err)
-          res.status(500).json({
-            message: {
-              msgBody: "Error has occured",
-              msgError: true,
-            },
-          });
-        else {
-          Wallet.find()
-            .where("_id")
-            .in(document.wallet)
-            .exec((err, records) => {
-              res.status(200).json({ wallet: records, authenticate: true });
-            });
-        }
-      });
-  }
-);
-
-//deleting the wallet data
-userRouter.post(
-  "/deleteWallet",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    console.log(req.body.id);
-    Wallet.deleteOne({ _id: req.body.id }, function (err) {
-      if (!err) {
-        res.status(200).json({
-          message: {
-            msgBody: "Successfully cleared money",
-            msgError: false,
-          },
-        });
-      } else {
+    User.find({ _id: req.user._id }, (err, user) => {
+      if (err)
         res.status(500).json({
           message: {
-            msgBody: "Error deleting the money",
+            msgBody: "Error has occured",
             msgError: true,
           },
         });
+      else {
+        res.status(200).json({ data: user });
       }
     });
   }

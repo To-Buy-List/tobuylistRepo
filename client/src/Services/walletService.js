@@ -1,9 +1,9 @@
 export default {
   //to create an item
-  postWallet: (money) => {
+  postWallet: (username, money) => {
     return fetch("user/wallet", {
       method: "post",
-      body: JSON.stringify(money),
+      body: JSON.stringify(username, money),
       headers: {
         "Content-Type": "application/json",
       },

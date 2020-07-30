@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import ItemService from "../Services/ItemService";
 import Item from "./item";
 import { Link } from "react-router-dom";
+import Money from "./money";
 
 var List = (props) => {
   const [items, setItems] = useState([]);
@@ -15,6 +16,7 @@ var List = (props) => {
 
   return (
     <div>
+      <Money />
       <ul>
         {items.map((item) => {
           return <Item key={item._id} item={item} />;

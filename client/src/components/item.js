@@ -1,11 +1,12 @@
 import React, { useState, useContext } from "react";
 import ItemService from "../Services/ItemService";
 import { AuthContext } from "../Context/AuthContext";
+import walletService from "../Services/walletService";
 
 const Item = (props) => {
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
-
+  console.log(props);
   const deleteItemHandler = (id) => {
     ItemService.deleteItem(id).then((data) => {
       const { message } = data;
@@ -22,15 +23,40 @@ const Item = (props) => {
     });
   };
 
+  //bought functions
+  const formatItems = () => {
+    if (props.item.bought === false) {
+      return (
+        <>
+          {props.item.item}
+          <br />
+          Price .. {props.item.price} JD
+        </>
+      );
+    } else {
+      return (
+        <>
+          <del>
+            {props.item.item}
+            <br />
+            Price .. {props.item.price} JD
+          </del>
+        </>
+      );
+    }
+  };
+
+  const boughtItemHandler = () => {};
+
   return (
     <li>
-      {props.item.item}
-      <br />
-      Price .. {props.item.price} JD
+      {formatItems()}
       <button type="button" onClick={() => deleteItemHandler(props.item._id)}>
         Delete
       </button>
-      <button>Bought</button>
+      <button type="button" onClick={() => boughtItemHandler(props.item)}>
+        Bought
+      </button>
     </li>
   );
 };

@@ -6,17 +6,17 @@ import Money from "./money";
 import { Link } from "react-router-dom";
 
 var Wallet = (props) => {
-  const [wallet, setWallet] = useState({
-    id: "",
-    money: "",
-  });
-
+  const [user, setUser] = useState({ username: "", wallet: "" });
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
 
+  const infoCatch = (data) => {
+    setUser({ username: data.data[0].username });
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    walletService.postWallet(wallet).then((data) => {
+    walletService.postWallet(user).then((data) => {
       const { message } = data;
       resetForm();
       if (!message.msgError) {
@@ -33,41 +33,40 @@ var Wallet = (props) => {
     });
   };
 
+  const clearWalletHandler = (id) => {
+    walletService
+      .postWallet({ username: user.username, wallet: "0" })
+      .then((data) => {
+        const { message } = data;
+        resetForm();
+        if (!message.msgError) {
+          alert("Money Cleared");
+        } else if (message.msgBody === "UnAuthorized") {
+          //this means that the jwt token has expired
+          setMessage(message);
+          //resetting the user
+          authContext.setUser({ username: "" });
+          authContext.setIsAuthenticated(false);
+        } else {
+          setMessage(message);
+        }
+      });
+  };
+
   const onChange = (e) => {
-    setWallet({ [e.target.name]: e.target.value });
+    setUser({ wallet: e.target.value });
   };
 
   const resetForm = () => {
-    setWallet({
-      money: "",
+    setUser({
+      wallet: "",
     });
-  };
-
-  const deleteWalletHandler = (id) => {
-    walletService.deleteWallet(id).then((data) => {
-      const { message } = data;
-      if (!message.msgError) {
-        console.log("deleted");
-      } else if (message.msgBody === "UnAuthorized") {
-        //this means that the jwt token has expired
-        setMessage(message);
-        //resetting the user
-        authContext.setUser({ username: "" });
-        authContext.setIsAuthenticated(false);
-      } else {
-        setMessage(message);
-      }
-    });
-  };
-
-  const idCatch = (id) => {
-    setWallet({ id: id });
   };
 
   return (
     <>
       <div>
-        <Money idCatch={idCatch} />
+        <Money infoCatch={infoCatch} />
         <form onSubmit={onSubmit}>
           <div>
             <label>Money : </label>
@@ -76,7 +75,7 @@ var Wallet = (props) => {
               onChange={onChange}
               placeholder="Enter amount of money you have"
               name="money"
-              value={wallet.money}
+              value={user.wallet}
             />
           </div>
 
@@ -84,10 +83,7 @@ var Wallet = (props) => {
             <button type="submit">Update</button>
           </div>
           <div>
-            <button
-              type="button"
-              onClick={() => deleteWalletHandler(wallet.id)}
-            >
+            <button type="button" onClick={() => clearWalletHandler()}>
               Clear Wallet
             </button>
           </div>
