@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const ListOfItems = require("./List");
-const Wallet = require("./Wallet");
 const bcrypt = require("bcrypt");
 
 const Schema = mongoose.Schema;
@@ -9,7 +8,7 @@ const UserSchema = new Schema({
   username: { type: String, required: true, unique: true, min: 4, max: 15 },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  wallet: { type: mongoose.Schema.Types.ObjectId, ref: "Wallet" },
+  wallet: { type: String },
   //it'll contain an array of object id of the list items
   list: [{ type: mongoose.Schema.Types.ObjectId, ref: "ListOfItems" }],
 });

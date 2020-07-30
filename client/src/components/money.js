@@ -2,22 +2,20 @@ import React, { useState, useContext, useEffect } from "react";
 import walletService from "../Services/walletService";
 
 const Money = (props) => {
-  const [wallet, setWallet] = useState({});
-
+  const [user, setUser] = useState({});
   useEffect(() => {
     walletService.getWallet().then((data) => {
-      if (data.length || data.wallet.length) {
-        console.log(data);
-        props.idCatch(data.wallet[0]._id);
+      if (data.data[0].wallet) {
+        props = data;
       }
-      setWallet(data.wallet[0]);
+      setUser(data.data[0]);
     });
   }, []);
 
-  if (!wallet) {
+  if (user.wallet === "0" || user.wallet === {}) {
     return <h3>Add Money to the wallet</h3>;
   } else {
-    return <h3>The amount of money You have Is {wallet.money}</h3>;
+    return <h3>The amount of money You have Is {user.wallet}</h3>;
   }
 };
 

@@ -8,6 +8,7 @@ const AddItem = (props) => {
   const [item, setItem] = useState({
     item: "",
     price: 0,
+    bought: false,
   });
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
@@ -18,7 +19,6 @@ const AddItem = (props) => {
       const { message } = data;
       resetForm();
       if (!message.msgError) {
-        alert("Item Added");
       } else if (message.msgBody === "UnAuthorized") {
         //this means that the jwt token has expired
         setMessage(message);
