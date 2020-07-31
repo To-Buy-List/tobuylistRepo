@@ -20,7 +20,6 @@ var Wallet = (props) => {
       const { message } = data;
       resetForm();
       if (!message.msgError) {
-        alert("Money Added");
       } else if (message.msgBody === "UnAuthorized") {
         //this means that the jwt token has expired
         setMessage(message);
@@ -33,14 +32,13 @@ var Wallet = (props) => {
     });
   };
 
-  const clearWalletHandler = (id) => {
+  const clearWalletHandler = () => {
     walletService
       .postWallet({ username: user.username, wallet: "0" })
       .then((data) => {
         const { message } = data;
         resetForm();
         if (!message.msgError) {
-          alert("Money Cleared");
         } else if (message.msgBody === "UnAuthorized") {
           //this means that the jwt token has expired
           setMessage(message);

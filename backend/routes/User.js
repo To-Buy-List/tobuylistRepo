@@ -201,32 +201,33 @@ userRouter.post(
   }
 );
 
-//clear list item router
-// userRouter
-//   .post
-// "/clearItems",
-// passport.authenticate("jwt", { session: false }),
-// (req, res) => {
-//   List.deleteOne({ _id: req.body.id }, function (err) {
-//     if (!err) {
-//       console.log(err);
-//       res.status(200).json({
-//         message: {
-//           msgBody: "Successfully Deleted the item",
-//           msgError: false,
-//         },
-//       });
-//     } else {
-//       res.status(500).json({
-//         message: {
-//           msgBody: "Error deleting the item",
-//           msgError: true,
-//         },
-//       });
-//     }
-//   });
-// }
-// ();
+//change the bought state to true
+userRouter.post(
+  "/listBought",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { _id, bought } = req.body;
+    List.findOneAndUpdate(
+      { _id },
+      { $set: { bought: true } },
+      { new: true },
+      (err, item) => {
+        if (err)
+          res.status(500).json({
+            message: { msgBody: "Error in the database", msgError: true },
+          });
+        else {
+          res.status(200).json({
+            message: {
+              msgBody: "Successfully bought Item",
+              msgError: false,
+            },
+          });
+        }
+      }
+    );
+  }
+);
 
 /********************************************************************************* 
 Wallet Routers 
@@ -244,7 +245,6 @@ userRouter.post(
           message: { msgBody: "Error in the database", msgError: true },
         });
       else {
-        //adding the item within our items array in user schema
         req.user.wallet = wallet;
         req.user.save((err) => {
           if (err)

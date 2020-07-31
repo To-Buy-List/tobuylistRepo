@@ -32,7 +32,7 @@ const AddItem = (props) => {
   };
 
   const onChange = (e) => {
-    setItem({ ...item, [e.target.name]: e.target.value });
+    setItem({ ...item, [e.target.name]: e.target.value, bought: false });
   };
 
   const resetForm = () => {

@@ -38,4 +38,19 @@ export default {
       } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
     });
   },
+  //to update bought field to true
+  postBought: (id) => {
+    return fetch("user/listBought", {
+      method: "post",
+      body: JSON.stringify({ _id: id }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      // you have to be authenticated to post an Item
+      if (response.status !== 401) {
+        return response.json().then((data) => data);
+      } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
+    });
+  },
 };
