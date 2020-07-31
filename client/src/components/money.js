@@ -1,16 +1,14 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import walletService from "../Services/walletService";
 
 const Money = (props) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({ wallet: "" });
+
   useEffect(() => {
     walletService.getWallet().then((data) => {
-      if (data.data[0].wallet) {
-        props = data;
-      }
-      setUser(data.data[0]);
+      setUser({ wallet: data.wallet });
     });
-  }, []);
+  }, [props]);
 
   if (user.wallet === "0" || user.wallet === {}) {
     return <h3>Add Money to the wallet</h3>;

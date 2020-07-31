@@ -4,7 +4,7 @@ import Item from "./item";
 import { Link } from "react-router-dom";
 import Money from "./money";
 
-var List = (props) => {
+var List = () => {
   const [items, setItems] = useState([]);
 
   //equilivant to componentDidMount
@@ -14,10 +14,16 @@ var List = (props) => {
     });
   }, []);
 
+  const updateItems = () => {
+    ItemService.getItems().then((data) => {
+      setItems(data.items);
+    });
+  };
   const clearListHandler = () => {
     items.map((item) => {
       return ItemService.deleteItem(item._id);
     });
+    updateItems();
   };
 
   return (
@@ -25,7 +31,7 @@ var List = (props) => {
       <Money />
       <ul>
         {items.map((item) => {
-          return <Item key={item._id} item={item} />;
+          return <Item key={item._id} item={item} updateItems={updateItems} />;
         })}
       </ul>
       <button type="button" onClick={() => clearListHandler()}>

@@ -3,7 +3,7 @@ export default {
   getItems: () => {
     return fetch("user/items").then((response) => {
       //passport sends 401 error if you are unauthorized
-      if (response.status != 401) {
+      if (response.status !== 401) {
         return response.json().then((data) => data);
       } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
     });

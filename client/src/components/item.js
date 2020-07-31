@@ -7,19 +7,18 @@ const Item = (props) => {
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
   const [user, setUser] = useState({});
+
   useEffect(() => {
     walletService.getWallet().then((data) => {
-      if (data.data[0].wallet) {
-        props = data;
-      }
-      setUser(data.data[0]);
+      setUser(data);
     });
-  }, []);
+  }, [props]);
 
   const deleteItemHandler = (id) => {
     ItemService.deleteItem(id).then((data) => {
       const { message } = data;
       if (!message.msgError) {
+        props.updateItems();
       } else if (message.msgBody === "UnAuthorized") {
         //this means that the jwt token has expired
         setMessage(message);
@@ -73,6 +72,7 @@ const Item = (props) => {
         const { message } = data;
         if (!message.msgError) {
           ItemService.postBought(props.item._id);
+          props.updateItems();
         } else if (message.msgBody === "UnAuthorized") {
           //this means that the jwt token has expired
           setMessage(message);

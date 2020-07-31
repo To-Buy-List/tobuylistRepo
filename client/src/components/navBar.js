@@ -10,7 +10,7 @@ const Nav = (props) => {
   };
   let history = useHistory();
 
-  const { isAuthenticated, user, setIsAuthenticated, setUser } = useContext(
+  const { isAuthenticated, setIsAuthenticated, setUser } = useContext(
     AuthContext
   );
 

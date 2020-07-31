@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react"; //useRef and useEffe
 import { Link } from "react-router-dom";
 import AuthService from "../Services/AuthService";
 import Message from "../components/Message";
-import { AuthContext } from "../Context/AuthContext";
 
 const SignUp = (props) => {
   const [user, setUser] = useState({ username: "", email: "", password: "" });

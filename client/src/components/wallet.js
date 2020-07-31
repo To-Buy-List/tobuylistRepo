@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import walletService from "../Services/walletService";
 import { AuthContext } from "../Context/AuthContext";
 import Message from "./Message";
@@ -11,7 +11,7 @@ var Wallet = (props) => {
   const authContext = useContext(AuthContext);
 
   const infoCatch = (data) => {
-    setUser({ username: data.data[0].username });
+    setUser({ username: data.username });
   };
 
   const onSubmit = (e) => {
