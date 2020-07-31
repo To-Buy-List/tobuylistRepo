@@ -14,6 +14,12 @@ var List = (props) => {
     });
   }, []);
 
+  const clearListHandler = () => {
+    items.map((item) => {
+      return ItemService.deleteItem(item._id);
+    });
+  };
+
   return (
     <div>
       <Money />
@@ -22,7 +28,9 @@ var List = (props) => {
           return <Item key={item._id} item={item} />;
         })}
       </ul>
-      <button type="button">Clear List</button>
+      <button type="button" onClick={() => clearListHandler()}>
+        Clear List
+      </button>
       <br />
       <br />
       <Link to="/">
