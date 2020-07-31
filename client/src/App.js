@@ -1,5 +1,4 @@
-import React, { useContext } from "react";
-import { AuthContext } from "./Context/AuthContext";
+import React from "react";
 import "./style.css";
 import Home from "./components/home";
 import SignIn from "./components/signin";
