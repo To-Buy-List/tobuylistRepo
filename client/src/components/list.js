@@ -39,6 +39,9 @@ var List = () => {
       </button>
       <br />
       <br />
+      <Link to="/addItem">
+        <button type="button">Add Item</button>
+      </Link>
       <Link to="/">
         <button type="button">Home</button>
       </Link>

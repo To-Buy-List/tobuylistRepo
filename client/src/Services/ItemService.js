@@ -53,4 +53,19 @@ export default {
       } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
     });
   },
+  //to update reminder field with a date and time
+  postReminder: (id, newReminder) => {
+    return fetch("user/reminder", {
+      method: "post",
+      body: JSON.stringify({ _id: id, reminder: newReminder }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((response) => {
+      // you have to be authenticated to post an Item
+      if (response.status !== 401) {
+        return response.json().then((data) => data);
+      } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
+    });
+  },
 };

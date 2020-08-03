@@ -7,7 +7,8 @@ import { Link } from "react-router-dom";
 const AddItem = (props) => {
   const [item, setItem] = useState({
     item: "",
-    price: 0,
+    price: "",
+    reminder: "",
     bought: false,
   });
   const [message, setMessage] = useState(null);
@@ -32,13 +33,18 @@ const AddItem = (props) => {
   };
 
   const onChange = (e) => {
-    setItem({ ...item, [e.target.name]: e.target.value, bought: false });
+    setItem({
+      ...item,
+      [e.target.name]: e.target.value,
+      bought: false,
+    });
   };
 
   const resetForm = () => {
     setItem({
       item: "",
-      price: 0,
+      price: "",
+      reminder: "",
     });
   };
 
@@ -69,11 +75,21 @@ const AddItem = (props) => {
           </div>
 
           <div>
+            <p>Would you like to set a reminder to buy this Item?</p>
+            <input
+              type="datetime-local"
+              onChange={onChange}
+              name="reminder"
+              value={item.reminder}
+            />
+          </div>
+
+          <div>
             <button type="submit">Add</button>
           </div>
           <div>
             <Link to="/list">
-              <button type="button">Next</button>
+              <button type="button">List</button>
             </Link>
           </div>
         </form>
