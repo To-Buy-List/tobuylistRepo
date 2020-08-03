@@ -213,6 +213,34 @@ userRouter.post(
   }
 );
 
+//update the reminder numeric value
+userRouter.post(
+  "/reminder",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    const { _id, reminder } = req.body;
+    List.findOneAndUpdate(
+      { _id },
+      { $set: { reminder: reminder } },
+      { new: true },
+      (err, item) => {
+        if (err)
+          res.status(500).json({
+            message: { msgBody: "Error in the database", msgError: true },
+          });
+        else {
+          res.status(200).json({
+            message: {
+              msgBody: "Successfully added a reminder for Item",
+              msgError: false,
+            },
+          });
+        }
+      }
+    );
+  }
+);
+
 /********************************************************************************* 
 Wallet Routers 
 *********************************************************************************/
