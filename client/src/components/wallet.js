@@ -76,18 +76,20 @@ var Wallet = (props) => {
               value={user.wallet}
             />
           </div>
-
+          <br />
           <div>
             <button type="submit">Update</button>
-          </div>
-          <div>
             <button type="button" onClick={() => clearWalletHandler()}>
               Clear Wallet
             </button>
           </div>
+          <br /> <br />
           <div>
+            <Link to="/">
+              <button type="button">Home</button>
+            </Link>
             <Link to="/addItem">
-              <button type="button">Next</button>
+              <button type="button">Add Items</button>
             </Link>
           </div>
         </form>
