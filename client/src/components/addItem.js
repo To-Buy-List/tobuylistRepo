@@ -62,7 +62,6 @@ const AddItem = (props) => {
               value={item.item}
             />
           </div>
-
           <div>
             <label>Price : </label>
             <input
@@ -73,7 +72,6 @@ const AddItem = (props) => {
               value={item.price}
             />
           </div>
-
           <div>
             <p>Would you like to set a reminder to buy this Item?</p>
             <input
@@ -83,11 +81,15 @@ const AddItem = (props) => {
               value={item.reminder}
             />
           </div>
-
+          <br />
           <div>
             <button type="submit">Add</button>
           </div>
+          <br /> <br />
           <div>
+            <Link to="/">
+              <button type="button">Home</button>
+            </Link>
             <Link to="/list">
               <button type="button">List</button>
             </Link>

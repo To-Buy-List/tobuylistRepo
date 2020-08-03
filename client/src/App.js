@@ -3,7 +3,6 @@ import "./style.css";
 import Home from "./components/home";
 import SignIn from "./components/signin";
 import SignUp from "./components/signup";
-import Nav from "./components/navBar";
 import Wallet from "./components/wallet";
 import List from "./components/list";
 import AddItem from "./components/addItem";
@@ -13,7 +12,6 @@ function App() {
   return (
     <Router>
       <div>
-        <Nav />
         <Route path="/" exact component={Home} />
         <Route path="/signin" exact component={SignIn} />
         <Route path="/signup" component={SignUp} />
