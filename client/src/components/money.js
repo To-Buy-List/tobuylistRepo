@@ -1,19 +1,52 @@
 import React, { useState, useEffect } from "react";
 import walletService from "../Services/walletService";
+import Typography from "@material-ui/core/Typography";
+import Avatar from "@material-ui/core/Avatar";
+import { makeStyles } from "@material-ui/core/styles";
 
+//to style the avatar
+//=============================================
+const useStyles = makeStyles((theme) => ({
+  avatar: {
+    margin: theme.spacing(1),
+    alignSelf: "center",
+    width: "70px",
+    height: " 70px",
+    color: "FFFFFF",
+    backgroundColor: theme.palette.info.light,
+  },
+}));
+
+//================================================
+
+//To display the amount of money you have in your Wallet Page functionality
+//=====================================================
 const Money = (props) => {
   const [user, setUser] = useState({ wallet: "" });
 
+  //declairing the styling class
+  const classes = useStyles();
+
+  //to set user
   useEffect(() => {
     walletService.getWallet().then((data) => {
       setUser({ wallet: data.wallet });
     });
   }, [props]);
 
+  //to format what is being displayed according to the money you have
   if (user.wallet === "0" || user.wallet === {}) {
-    return <h3>Add Money to the wallet</h3>;
+    return (
+      <Typography component="h6" variant="subtitle1">
+        Please Add Money to your wallet
+      </Typography>
+    );
   } else {
-    return <h3>The amount of money You have Is {user.wallet}</h3>;
+    return (
+      <>
+        <Avatar className={classes.avatar}>{user.wallet}</Avatar>
+      </>
+    );
   }
 };
 
