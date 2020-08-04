@@ -13,6 +13,8 @@ import Container from "@material-ui/core/Container";
 import Logo from "../images/logo1.png";
 import Avatar from "@material-ui/core/Avatar";
 
+//to style the page
+//=============================================
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(18),
@@ -25,23 +27,28 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#FFFFFF",
   },
   form: {
-    width: "100%", // Fix IE 11 issue.
+    width: "100%",
     marginTop: theme.spacing(1),
   },
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
 }));
+//================================================
 
+//Sign in Functionalities
+//===================================================================
 const SignIn = (props) => {
   const [user, setUser] = useState({ username: "", password: "" });
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
 
+  // to update user state
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
   };
 
+  // to sign in
   const onSubmit = (e) => {
     e.preventDefault();
     AuthService.signin(user).then((data) => {
@@ -55,6 +62,7 @@ const SignIn = (props) => {
     });
   };
 
+  //declairing the styling class
   const classes = useStyles();
   return (
     <>
@@ -73,7 +81,7 @@ const SignIn = (props) => {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="username"
               label="Enter your username"
               autoFocus
               name="username"
@@ -96,7 +104,7 @@ const SignIn = (props) => {
               fullWidth
               variant="contained"
               style={{
-                backgroundColor: "#FCC201",
+                backgroundColor: "#1167b1",
                 color: "#FFFFFF",
               }}
               className={classes.submit}
@@ -105,9 +113,9 @@ const SignIn = (props) => {
             </Button>
 
             <Grid item>
-              <Link to="signup" variant="body2">
-                {"Don't have an account? Sign Up"}
-              </Link>
+              <p>
+                Don't have an account? <Link to="signup">{"Sign Up"}</Link>
+              </p>
             </Grid>
           </form>
         </div>
