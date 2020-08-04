@@ -1,18 +1,33 @@
-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  min-height: 10vh;
-  background: #1e1e1f;
-  color: white;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
-/* the nav links styling */
-.nav-links {
-  width: 40%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  list-style: none;
+.homeDiv {
+  position: fixed;
+  width: 50%;
+  height: 50%;
+}
+#div1 {
+  top: 0;
+  left: 0;
+  background: #b0efef;
+}
+#div2 {
+  top: 0;
+  left: 50%;
+  background: #ffdac1;
+}
+#div3 {
+  top: 50%;
+  left: 0;
+  background: #ffb7b2;
+}
+#div4 {
+  top: 50%;
+  left: 50%;
+  background: #77c3ec;
 }
 
 /* the Loader styling */
