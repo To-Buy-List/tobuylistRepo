@@ -16,7 +16,7 @@ import Avatar from "@material-ui/core/Avatar";
 //=============================================
 const useStyles = makeStyles((theme) => ({
   paper: {
-    marginTop: theme.spacing(18),
+    marginTop: theme.spacing(13),
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#FFFFFF",
+    width: "70px",
+    height: " 70px",
   },
   form: {
     width: "100%",
@@ -83,11 +85,13 @@ const SignUp = (props) => {
       <Container>
         <CssBaseline />
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <img width="35px" height="35px" src={Logo} />
-          </Avatar>
+          <Link to="/">
+            <Avatar className={classes.avatar}>
+              <img width="50px" height="50px" src={Logo} />
+            </Avatar>
+          </Link>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign Up
           </Typography>
           <form className={classes.form} onSubmit={onSubmit} noValidate>
             <TextField
@@ -135,7 +139,7 @@ const SignUp = (props) => {
               fullWidth
               variant="contained"
               style={{
-                backgroundColor: "#1167b1",
+                backgroundColor: "#77C3EC",
                 color: "#FFFFFF",
               }}
               className={classes.submit}

@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     alignSelf: "center",
-    width: "70px",
-    height: " 70px",
+    width: "60px",
+    height: " 60px",
     color: "FFFFFF",
-    backgroundColor: theme.palette.info.light,
+    backgroundColor: "#77C3EC",
+    fontSize: "20px",
   },
 }));
 
@@ -44,7 +45,9 @@ const Money = (props) => {
   } else {
     return (
       <>
-        <Avatar className={classes.avatar}>{user.wallet}</Avatar>
+        <Avatar className={classes.avatar}>
+          <small>{user.wallet} $</small>
+        </Avatar>
       </>
     );
   }

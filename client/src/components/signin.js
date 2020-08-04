@@ -4,6 +4,7 @@ import AuthService from "../Services/AuthService";
 import Message from "../components/Message";
 import { AuthContext } from "../Context/AuthContext";
 import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
@@ -25,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#FFFFFF",
+    width: "70px",
+    height: " 70px",
   },
   form: {
     width: "100%",
@@ -69,9 +72,11 @@ const SignIn = (props) => {
       <Container>
         <CssBaseline />
         <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <img width="35px" height="35px" src={Logo} />
-          </Avatar>
+          <Link to="/">
+            <Avatar className={classes.avatar}>
+              <img width="50px" height="50px" src={Logo} />
+            </Avatar>
+          </Link>
           <Typography component="h1" variant="h5">
             Sign in
           </Typography>
@@ -104,7 +109,7 @@ const SignIn = (props) => {
               fullWidth
               variant="contained"
               style={{
-                backgroundColor: "#1167b1",
+                backgroundColor: "#77C3EC",
                 color: "#FFFFFF",
               }}
               className={classes.submit}

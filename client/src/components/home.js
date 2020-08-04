@@ -5,9 +5,6 @@ import { AuthContext } from "../Context/AuthContext";
 import { useHistory } from "react-router-dom";
 
 var Home = () => {
-  var homeStyle = {
-    color: "white",
-  };
   let history = useHistory();
 
   const { isAuthenticated, setIsAuthenticated, setUser } = useContext(

@@ -2,7 +2,32 @@ import React, { useState, useContext, useEffect } from "react";
 import ItemService from "../Services/ItemService";
 import { AuthContext } from "../Context/AuthContext";
 import walletService from "../Services/walletService";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import TableCell from "@material-ui/core/TableCell";
+import TableRow from "@material-ui/core/TableRow";
+import DeleteIcon from "@material-ui/icons/Delete";
+import IconButton from "@material-ui/core/IconButton";
 
+//to style the page
+//=============================================
+const useStyles = makeStyles((theme) => ({
+  button: {
+    margin: theme.spacing(1),
+  },
+  cell: {
+    fontSize: "10px",
+    height: 10,
+    minHeight: 5,
+    width: 10,
+    minWidth: 10,
+  },
+}));
+
+//================================================
+
+//Item Functionalities
+//==================================================
 const Item = (props) => {
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
@@ -36,21 +61,25 @@ const Item = (props) => {
   const formatItems = () => {
     if (props.item.bought === false) {
       return (
-        <>
+        <TableCell>
           {props.item.item}
           <br />
-          Price .. {props.item.price} JD
-        </>
+          Price: {props.item.price} JD
+          <br />
+          <p>
+            <small>{formatDate(props.item.reminder)}</small>
+          </p>
+        </TableCell>
       );
     } else {
       return (
-        <>
+        <TableCell>
           <del>
             {props.item.item}
             <br />
             Price .. {props.item.price} JD
           </del>
-        </>
+        </TableCell>
       );
     }
   };
@@ -88,42 +117,6 @@ const Item = (props) => {
       });
   };
 
-  //update time for reminder
-  const onChange = (e) => {
-    const d = Date.parse(e.target.value);
-    const start = Date.now();
-    if (d - start <= 0) {
-      alert("We can't go Back in time");
-    } else {
-      props.item.reminder = e.target.value;
-    }
-    console.log(props.item.reminder);
-  };
-
-  //to save reminder date in the database
-  const onSubmit = (e) => {
-    e.preventDefault();
-    ItemService.postReminder(props.item._id, props.item.reminder).then(
-      (data) => {
-        const { message } = data;
-        if (!message.msgError) {
-          //we'll hide the div again and re-render elements
-          var element = document.getElementById("hiddenDiv");
-          element.setAttribute("hidden", true);
-          props.updateItems();
-        } else if (message.msgBody === "UnAuthorized") {
-          //this means that the jwt token has expired
-          setMessage(message);
-          //resetting the user
-          authContext.setUser({ username: "" });
-          authContext.setIsAuthenticated(false);
-        } else {
-          setMessage(message);
-        }
-      }
-    );
-  };
-
   //to format the date of the reminder and show a text
   const formatDate = (date) => {
     if (date !== "") {
@@ -137,54 +130,44 @@ const Item = (props) => {
       if (month.length < 2) month = "0" + month;
       if (day.length < 2) day = "0" + day;
 
-      return (
-        "You Set a Reminder on " +
-        [day, month, year].join("-") +
-        " at " +
-        [hours, minutes].join(":")
-      );
+      return "Reminder on " + [day, month, year].join("/") + " at " + [hours];
     } else {
       return null;
     }
   };
 
-  // To show Update Reminder Div
-  const showUpdateReminderHandler = () => {
-    var element = document.getElementById("hiddenDiv");
-    element.removeAttribute("hidden");
-  };
-
+  //declairing the styling class
+  const classes = useStyles();
   return (
-    <li>
+    <TableRow>
       {formatItems()}
-      <button type="button" onClick={() => deleteItemHandler(props.item._id)}>
-        Delete
-      </button>
-      <button
-        disabled={props.item.bought}
-        type="button"
-        onClick={() => boughtItemHandler(props.item)}
-      >
-        Bought
-      </button>
-      <button
-        onClick={() => showUpdateReminderHandler()}
-        disabled={props.item.bought}
-      >
-        Update Reminder
-      </button>
-      <div>
-        <p>
-          <small>{formatDate(props.item.reminder)}</small>
-        </p>
-      </div>
-      <div id="hiddenDiv" hidden={true}>
-        <input type="datetime-local" onChange={onChange} name="date" />
-        <button onClick={onSubmit} disabled={props.item.bought}>
-          Set Reminder
-        </button>
-      </div>
-    </li>
+
+      <TableCell className={classes.cell} align="right">
+        <IconButton
+          onClick={() => deleteItemHandler(props.item._id)}
+          aria-label="delete"
+        >
+          <DeleteIcon />
+        </IconButton>
+      </TableCell>
+
+      <TableCell className={classes.cell} align="right">
+        <Button
+          fullWidth
+          variant="contained"
+          style={{
+            backgroundColor: "#77C3EC",
+            color: "#FFFFFF",
+          }}
+          className={classes.submit}
+          onClick={() => boughtItemHandler(props.item)}
+          size="small"
+          disabled={props.item.bought}
+        >
+          <b>Bought</b>
+        </Button>
+      </TableCell>
+    </TableRow>
   );
 };
 

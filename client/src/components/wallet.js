@@ -7,8 +7,6 @@ import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Grid from "@material-ui/core/Grid";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
@@ -28,6 +26,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: "#FFFFFF",
+    width: "70px",
+    height: " 70px",
   },
   form: {
     width: "100%",
@@ -124,7 +124,7 @@ var Wallet = (props) => {
         <div className={classes.paper}>
           <Link to="/">
             <Avatar className={classes.avatar}>
-              <img width="35px" height="35px" src={Logo} />
+              <img width="50px" height="50px" src={Logo} />
             </Avatar>
           </Link>
           <Typography component="h1" variant="h5">
@@ -138,7 +138,7 @@ var Wallet = (props) => {
             <CurrencyTextField
               label="Amount"
               variant="standard"
-              currencySymbol="JOD"
+              currencySymbol="$"
               outputFormat="string"
               onChange={onChange}
               name="money"
