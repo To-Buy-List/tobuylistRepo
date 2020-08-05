@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => ({
   avatar: {
     margin: theme.spacing(1),
     alignSelf: "center",
-    width: "60px",
-    height: " 60px",
+    width: "70px",
+    height: " 70px",
     color: "FFFFFF",
     backgroundColor: "#77C3EC",
     fontSize: "20px",
@@ -31,7 +31,7 @@ const Money = (props) => {
   //to set user
   useEffect(() => {
     walletService.getWallet().then((data) => {
-      setUser({ wallet: data.wallet });
+      setUser({ wallet: data.wallet * 1 });
     });
   }, [props]);
 
@@ -46,7 +46,7 @@ const Money = (props) => {
     return (
       <>
         <Avatar className={classes.avatar}>
-          <small>{user.wallet} $</small>
+          <small>{user.wallet * 1} $</small>
         </Avatar>
       </>
     );
