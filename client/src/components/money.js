@@ -31,12 +31,14 @@ const Money = (props) => {
   //to set user
   useEffect(() => {
     walletService.getWallet().then((data) => {
-      setUser({ wallet: data.wallet * 1 });
+      if (user.wallet === "" || user.wallet === {}) {
+        setUser({ wallet: data.wallet });
+      } else setUser({ wallet: data.wallet * 1 });
     });
   }, [props]);
 
   //to format what is being displayed according to the money you have
-  if (user.wallet === "0" || user.wallet === {}) {
+  if (user.wallet === "" || user.wallet === {}) {
     return (
       <Typography component="h6" variant="subtitle1">
         Please Add Money to your wallet
@@ -46,7 +48,7 @@ const Money = (props) => {
     return (
       <>
         <Avatar className={classes.avatar}>
-          <small>{user.wallet * 1} $</small>
+          <small>{user.wallet} $</small>
         </Avatar>
       </>
     );

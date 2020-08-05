@@ -194,7 +194,7 @@ var Wallet = (props) => {
                 }}
                 className={classes.submit}
               >
-                <b>Add Items</b>
+                <b>Add Items </b>{" "}
               </Button>
             </Link>
           </form>

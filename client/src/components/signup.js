@@ -47,7 +47,12 @@ const useStyles = makeStyles((theme) => ({
 //Sign up Functionalities
 //============================================================================
 const SignUp = (props) => {
-  const [user, setUser] = useState({ username: "", email: "", password: "" });
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    wallet: "",
+  });
   const [message, setMessage] = useState(null);
   var timerID = useRef(null);
 
@@ -72,7 +77,7 @@ const SignUp = (props) => {
 
   //to reset the form when you submit
   const resetForm = () => {
-    setUser({ username: "", email: "", password: "" });
+    setUser({ username: "", email: "", password: "", wallet: "" });
     var elementOne = document.getElementById("redAlert");
     elementOne.hidden = true;
     var elementTwo = document.getElementById("blueAlert");
