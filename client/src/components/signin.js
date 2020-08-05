@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../images/logo1.png";
 import Avatar from "@material-ui/core/Avatar";
+import Alert from "@material-ui/lab/Alert";
 
 //to style the page
 //=============================================
@@ -36,6 +37,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 //================================================
 
@@ -45,10 +52,22 @@ const SignIn = (props) => {
   const [user, setUser] = useState({ username: "", password: "" });
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
+  //declairing the styling class
+  const classes = useStyles();
 
   // to update user state
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    var element = document.getElementById("redAlert");
+    element.hidden = true;
+  };
+
+  //alert function
+  const alertFunc = (authenticated) => {
+    if (authenticated === false) {
+      var element = document.getElementById("redAlert");
+      element.hidden = false;
+    }
   };
 
   // to sign in
@@ -61,12 +80,13 @@ const SignIn = (props) => {
         authContext.setIsAuthenticated(isAuthenticated);
         //where to go when you're signedIn
         props.history.push("/");
-      } else setMessage(message);
+      } else {
+        setMessage(message);
+        alertFunc(isAuthenticated);
+      }
     });
   };
 
-  //declairing the styling class
-  const classes = useStyles();
   return (
     <>
       <Container>
@@ -122,6 +142,11 @@ const SignIn = (props) => {
                 Don't have an account? <Link to="signup">{"Sign Up"}</Link>
               </p>
             </Grid>
+            <div id="redAlert" className={classes.alert} hidden>
+              <Alert severity="error">
+                <b>WRONG</b> username or password!!
+              </Alert>
+            </div>
           </form>
         </div>
       </Container>

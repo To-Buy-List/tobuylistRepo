@@ -12,6 +12,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../images/logo1.png";
 import Avatar from "@material-ui/core/Avatar";
+import Alert from "@material-ui/lab/Alert";
 
 //to style the page
 //=============================================
@@ -43,6 +44,12 @@ const useStyles = makeStyles((theme) => ({
       margin: theme.spacing(1),
     },
   },
+  alert: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 //================================================
 
@@ -64,10 +71,11 @@ const AddItem = (props) => {
     const d = Date.parse(item.reminder);
     const start = Date.now();
     if (d - start <= 0) {
-      alert("We can't go Back in time .. change reminder!!");
+      reminderAlert();
     } else {
       ItemService.postItem(item).then((data) => {
         const { message } = data;
+
         resetForm();
         if (!message.msgError) {
         } else if (message.msgBody === "UnAuthorized") {
@@ -77,10 +85,23 @@ const AddItem = (props) => {
           authContext.setUser({ username: "" });
           authContext.setIsAuthenticated(false);
         } else {
-          setMessage(message);
+          alertFunc();
         }
       });
     }
+  };
+
+  //alert function
+  const alertFunc = () => {
+    var element = document.getElementById("redAlert");
+    element.hidden = false;
+  };
+
+  //reminder Alert
+  //alert function
+  const reminderAlert = () => {
+    var reminder = document.getElementById("reminderAlert");
+    reminder.hidden = false;
   };
 
   // to update item state
@@ -90,6 +111,10 @@ const AddItem = (props) => {
       [e.target.name]: e.target.value,
       bought: false,
     });
+    var element = document.getElementById("redAlert");
+    element.hidden = true;
+    var reminder = document.getElementById("reminderAlert");
+    reminder.hidden = true;
   };
 
   //to reset for when you add
@@ -99,6 +124,10 @@ const AddItem = (props) => {
       price: "",
       reminder: "",
     });
+    var element = document.getElementById("redAlert");
+    element.hidden = true;
+    var reminder = document.getElementById("reminderAlert");
+    reminder.hidden = true;
   };
 
   //declairing the styling class
@@ -145,9 +174,12 @@ const AddItem = (props) => {
               value={item.price}
               onChange={onChange}
             />
-            <br /> <br />
+            <div id="redAlert" className={classes.alert} hidden>
+              <Alert severity="error">Please Add Item and Price..</Alert>
+            </div>
+            <br />
             <Typography component="h6" variant="subtitle2">
-              Set a reminder to buy this Item?
+              Set a Reminder to buy this Item?
             </Typography>
             <TextField
               type="datetime-local"
@@ -161,6 +193,11 @@ const AddItem = (props) => {
               value={item.reminder}
               onChange={onChange}
             />
+            <div id="reminderAlert" className={classes.alert} hidden>
+              <Alert severity="error">
+                <b>Unfortunately</b> We can't go back on Time!!
+              </Alert>
+            </div>
             <br /> <br />
             <div className={classes.root}>
               <ButtonGroup

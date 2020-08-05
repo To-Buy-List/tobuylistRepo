@@ -13,6 +13,7 @@ import Container from "@material-ui/core/Container";
 import Logo from "../images/logo1.png";
 import Avatar from "@material-ui/core/Avatar";
 import CurrencyTextField from "@unicef/material-ui-currency-textfield";
+import Alert from "@material-ui/lab/Alert";
 
 //to style the page
 //=============================================
@@ -42,6 +43,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     "& > *": {
       margin: theme.spacing(1),
+    },
+  },
+  alert: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
     },
   },
 }));
@@ -78,7 +85,7 @@ var Wallet = (props) => {
         }
       });
     } else {
-      alert("Add the amount of money you need to update");
+      alertFunc();
     }
   };
 
@@ -102,9 +109,17 @@ var Wallet = (props) => {
       });
   };
 
+  //alert function
+  const alertFunc = () => {
+    var element = document.getElementById("redAlert");
+    element.hidden = false;
+  };
+
   // to update user state
   const onChange = (e) => {
     setUser({ wallet: e.target.value });
+    var element = document.getElementById("redAlert");
+    HTMLAudioElement.hidden = true;
   };
 
   //to reset for when you update
@@ -112,6 +127,8 @@ var Wallet = (props) => {
     setUser({
       wallet: "",
     });
+    var element = document.getElementById("redAlert");
+    element.hidden = true;
   };
 
   //declairing the styling class
@@ -133,13 +150,18 @@ var Wallet = (props) => {
           <br />
           <br />
           <Money infoCatch={infoCatch} />
+          <div id="redAlert" className={classes.alert} hidden>
+            <Alert severity="error">Please Add Money to your Wallet!!</Alert>
+          </div>
           <br />
           <form onSubmit={onSubmit}>
             <CurrencyTextField
               label="Amount"
               variant="standard"
               currencySymbol="$"
+              minimumValue="0"
               outputFormat="string"
+              digitGroupSeparator=","
               onChange={onChange}
               name="money"
               value={user.wallet}

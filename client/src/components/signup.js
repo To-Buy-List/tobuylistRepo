@@ -11,6 +11,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
 import Logo from "../images/logo1.png";
 import Avatar from "@material-ui/core/Avatar";
+import Alert from "@material-ui/lab/Alert";
 
 //to style the page
 //=============================================
@@ -34,6 +35,12 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  alert: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
 }));
 //================================================
 
@@ -43,6 +50,9 @@ const SignUp = (props) => {
   const [user, setUser] = useState({ username: "", email: "", password: "" });
   const [message, setMessage] = useState(null);
   var timerID = useRef(null);
+
+  //declairing the styling class
+  const classes = useStyles();
 
   //useRef and useEffect will be used for the setTimeOut
   useEffect(() => {
@@ -54,11 +64,30 @@ const SignUp = (props) => {
   //To update user state
   const onChange = (e) => {
     setUser({ ...user, [e.target.name]: e.target.value });
+    var elementOne = document.getElementById("redAlert");
+    elementOne.hidden = true;
+    var elementTwo = document.getElementById("blueAlert");
+    elementTwo.hidden = true;
   };
 
   //to reset the form when you submit
   const resetForm = () => {
     setUser({ username: "", email: "", password: "" });
+    var elementOne = document.getElementById("redAlert");
+    elementOne.hidden = true;
+    var elementTwo = document.getElementById("blueAlert");
+    elementTwo.hidden = true;
+  };
+
+  //alert function
+  const alertFunc = (message) => {
+    if (message.msgError) {
+      var element = document.getElementById("redAlert");
+      element.hidden = false;
+    } else {
+      var element = document.getElementById("blueAlert");
+      element.hidden = false;
+    }
   };
 
   //to sign up
@@ -66,19 +95,20 @@ const SignUp = (props) => {
     e.preventDefault();
     AuthService.signup(user).then((data) => {
       const { message } = data;
-      setMessage(message);
-      resetForm();
+      if (message.msgError) {
+        alertFunc(message);
+      }
+      // setMessage(message);
       if (!message.msgError) {
-        //to show the message and go to sign in if there is no error
+        alertFunc(message.msgError);
+        //to show the message and go to sign in if there is no error//
         timerID = setTimeout(() => {
+          resetForm();
           props.history.push("/signin");
         }, 2000);
       }
     });
   };
-
-  //declairing the styling class
-  const classes = useStyles();
 
   return (
     <>
@@ -152,6 +182,15 @@ const SignUp = (props) => {
                 Already have an account? <Link to="signin">{"Sign In"}</Link>
               </p>
             </Grid>
+
+            <div id="blueAlert" className={classes.alert} hidden>
+              <Alert severity="success" color="info">
+                Account Created Succesfully..
+              </Alert>
+            </div>
+            <div id="redAlert" className={classes.alert} hidden>
+              <Alert severity="error">Username or email Already Taken!!</Alert>
+            </div>
           </form>
         </div>
       </Container>
