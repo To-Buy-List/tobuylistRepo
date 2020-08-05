@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import ItemService from "../Services/ItemService";
 import { AuthContext } from "../Context/AuthContext";
 import walletService from "../Services/walletService";
@@ -104,6 +104,7 @@ const Item = (props) => {
         const { message } = data;
         if (!message.msgError) {
           ItemService.postBought(props.item._id);
+          clearInterval(handle);
           props.updateItems();
         } else if (message.msgBody === "UnAuthorized") {
           //this means that the jwt token has expired
@@ -115,6 +116,32 @@ const Item = (props) => {
           setMessage(message);
         }
       });
+  };
+
+  // to change bought btn color if reminder is now
+
+  const handle = (element) => {
+    setInterval(() => {
+      element.style.backgroundColor = "#F85C4D";
+    }, 1000);
+  };
+
+  const changeBoughtColor = (item) => {
+    if (item.reminder !== "") {
+      var start = Date.now();
+      var difference = Date.parse(item.reminder) - start;
+      if (difference > 0) {
+        setTimeout(() => {
+          var element = document.getElementById(item._id);
+          handle(element);
+        }, difference);
+      } else if (difference <= 0) {
+        setTimeout(() => {
+          var element = document.getElementById(item._id);
+          handle(element);
+        }, 0);
+      }
+    }
   };
 
   //to format the date of the reminder and show a text
@@ -130,7 +157,12 @@ const Item = (props) => {
       if (month.length < 2) month = "0" + month;
       if (day.length < 2) day = "0" + day;
 
-      return "Reminder on " + [day, month, year].join("/") + " at " + [hours];
+      return (
+        "Reminder on " +
+        [day, month, year].join("/") +
+        " at " +
+        [hours, minutes].join(":")
+      );
     } else {
       return null;
     }
@@ -141,7 +173,7 @@ const Item = (props) => {
   return (
     <TableRow>
       {formatItems()}
-
+      {changeBoughtColor(props.item)}
       <TableCell className={classes.cell} align="right">
         <IconButton
           onClick={() => deleteItemHandler(props.item._id)}
@@ -153,6 +185,7 @@ const Item = (props) => {
 
       <TableCell className={classes.cell} align="right">
         <Button
+          id={props.item._id}
           fullWidth
           variant="contained"
           style={{
