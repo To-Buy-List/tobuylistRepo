@@ -5,6 +5,7 @@ export default {
       body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     }).then((res) => {
       if (res.status !== 401) return res.json().then((data) => data);
@@ -17,6 +18,7 @@ export default {
       body: JSON.stringify(user),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     })
       .then((res) => res.json())
