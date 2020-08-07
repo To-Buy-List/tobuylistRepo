@@ -143,6 +143,7 @@ const SignUp = (props) => {
             />
 
             <TextField
+              type="email"
               variant="outlined"
               margin="normal"
               required
