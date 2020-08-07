@@ -1,9 +1,15 @@
 const express = require("express");
 const app = express();
 const cookieParser = require("cookie-parser");
+require("dotenv").config();
 
 //to set an env on your local mashine run export PORT=
 const port = process.env.PORT || 5100;
+
+//serve up static assets (on heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 app.use(cookieParser());
 //the body-parser is within express
@@ -19,7 +25,7 @@ const mongoURI =
 
 //Establishing database connection
 mongoose
-  .connect(mongoURI, {
+  .connect(process.env.MONGODB_URI || mongoURI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
