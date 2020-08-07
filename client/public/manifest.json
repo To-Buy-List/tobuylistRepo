@@ -3,7 +3,7 @@
   "name": "Buy Me",
   "icons": [
     {
-      "src": "/logo1.ico",
+      "src": "/favicon.ico",
       "type": "image/png",
       "sizes": "1024x1024"
     }
