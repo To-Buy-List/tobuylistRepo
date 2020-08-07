@@ -107,8 +107,12 @@ var Home = () => {
             className={classes.image}
             focusVisibleClassName={classes.focusVisible}
             style={{
-              top: "60px",
-              width: "700px",
+              height: "20px",
+              width: "170px",
+              margin: "-20px -80px",
+              position: "relative",
+              top: "50%",
+              left: "50%",
             }}
           >
             <span className={classes.imageButton}>
@@ -145,8 +149,12 @@ var Home = () => {
             className={classes.image}
             focusVisibleClassName={classes.focusVisible}
             style={{
-              top: "60px",
-              width: "700px",
+              height: "20px",
+              width: "170px",
+              margin: "-20px -80px",
+              position: "relative",
+              top: "50%",
+              left: "50%",
             }}
           >
             <span className={classes.imageButton}>
