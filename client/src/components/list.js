@@ -39,11 +39,14 @@ var List = () => {
     });
   }, []);
 
+  // to get the data for items from database
   const updateItems = () => {
     ItemService.getItems().then((data) => {
       setItems(data.items);
     });
   };
+
+  //to delete list items
   const clearListHandler = () => {
     items.map((item) => {
       return ItemService.deleteItem(item._id);

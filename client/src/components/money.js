@@ -35,7 +35,7 @@ const Money = (props) => {
         setUser({ wallet: data.wallet });
       } else setUser({ wallet: data.wallet * 1 });
     });
-  }, [props]);
+  }, [props, user.wallet]);
 
   //to format what is being displayed according to the money you have
   if (user.wallet === "" || user.wallet === {}) {

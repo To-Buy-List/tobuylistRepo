@@ -8,6 +8,7 @@ export default {
       } else return { message: { msgBody: "UnAuthorized" }, msgError: true };
     });
   },
+
   //to create an item
   postItem: (item) => {
     return fetch("user/item", {
@@ -15,6 +16,7 @@ export default {
       body: JSON.stringify(item),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     }).then((response) => {
       // you have to be authenticated to post an Item
@@ -30,6 +32,7 @@ export default {
       body: JSON.stringify({ id: id }),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     }).then((response) => {
       // you have to be authenticated to post an Item
@@ -45,6 +48,7 @@ export default {
       body: JSON.stringify({ _id: id }),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     }).then((response) => {
       // you have to be authenticated to post an Item
@@ -60,6 +64,7 @@ export default {
       body: JSON.stringify({ _id: id, reminder: newReminder }),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     }).then((response) => {
       // you have to be authenticated to post an Item

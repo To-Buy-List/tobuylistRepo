@@ -6,6 +6,7 @@ export default {
       body: JSON.stringify(username, money),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
     }).then((response) => {
       // you have to be authenticated to post an Item
