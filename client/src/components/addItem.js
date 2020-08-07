@@ -139,7 +139,7 @@ const AddItem = (props) => {
         <div className={classes.paper}>
           <Link to="/">
             <Avatar className={classes.avatar}>
-              <img width="50px" height="50px" src={Logo} />
+              <img width="50px" height="50px" src={Logo} alt="Logo" />
             </Avatar>
           </Link>
           <Typography component="h1" variant="h5">

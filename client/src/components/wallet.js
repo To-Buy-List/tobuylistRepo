@@ -119,7 +119,7 @@ var Wallet = (props) => {
   const onChange = (e) => {
     setUser({ wallet: e.target.value });
     var element = document.getElementById("redAlert");
-    HTMLAudioElement.hidden = true;
+    element.hidden = true;
   };
 
   //to reset for when you update
@@ -141,7 +141,7 @@ var Wallet = (props) => {
         <div className={classes.paper}>
           <Link to="/">
             <Avatar className={classes.avatar}>
-              <img width="50px" height="50px" src={Logo} />
+              <img width="50px" height="50px" src={Logo} alt="Logo" />
             </Avatar>
           </Link>
           <Typography component="h1" variant="h5">

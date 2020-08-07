@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useRef } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import ItemService from "../Services/ItemService";
 import { AuthContext } from "../Context/AuthContext";
 import walletService from "../Services/walletService";
