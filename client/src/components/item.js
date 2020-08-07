@@ -104,8 +104,8 @@ const Item = (props) => {
         const { message } = data;
         if (!message.msgError) {
           ItemService.postBought(props.item._id);
-          clearInterval(handle);
           props.updateItems();
+          clearInterval(handle);
         } else if (message.msgBody === "UnAuthorized") {
           //this means that the jwt token has expired
           setMessage(message);
@@ -127,7 +127,7 @@ const Item = (props) => {
   };
 
   const changeBoughtColor = (item) => {
-    if (item.reminder !== "") {
+    if (item.reminder !== "" && item.bought === false) {
       var start = Date.now();
       var difference = Date.parse(item.reminder) - start;
       if (difference > 0) {
