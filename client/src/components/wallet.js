@@ -57,7 +57,7 @@ const useStyles = makeStyles((theme) => ({
 //Wallet Functionalities
 //================================================================
 var Wallet = (props) => {
-  const [user, setUser] = useState({ username: "", wallet: "" });
+  const [user, setUser] = useState({ username: "", wallet: 0 });
   const [message, setMessage] = useState(null);
   const authContext = useContext(AuthContext);
 
@@ -125,7 +125,7 @@ var Wallet = (props) => {
   //to reset for when you update
   const resetForm = () => {
     setUser({
-      wallet: "",
+      wallet: 0,
     });
     var element = document.getElementById("redAlert");
     element.hidden = true;
@@ -194,7 +194,7 @@ var Wallet = (props) => {
                 }}
                 className={classes.submit}
               >
-                <b>Add Items </b>{" "}
+                <b>Add Items </b>
               </Button>
             </Link>
           </form>

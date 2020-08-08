@@ -154,6 +154,7 @@ const SignUp = (props) => {
               name="email"
               onChange={onChange}
               value={user.email}
+              validate
             />
 
             <TextField
