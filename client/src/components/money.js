@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 //To display the amount of money you have in your Wallet Page functionality
 //=====================================================
 const Money = (props) => {
-  const [user, setUser] = useState({ wallet: "" });
+  const [user, setUser] = useState({ wallet: 0 });
 
   //declairing the styling class
   const classes = useStyles();
@@ -31,28 +31,21 @@ const Money = (props) => {
   //to set user
   useEffect(() => {
     walletService.getWallet().then((data) => {
-      if (user.wallet === "" || user.wallet === {}) {
+      if (user.wallet === "" || user.wallet === 0) {
         setUser({ wallet: data.wallet });
       } else setUser({ wallet: data.wallet * 1 });
     });
-  }, [props, user.wallet]);
+  }, [props]);
 
-  //to format what is being displayed according to the money you have
-  if (user.wallet === "" || user.wallet === {}) {
-    return (
-      <Typography component="h6" variant="subtitle1">
-        Please Add Money to your wallet
-      </Typography>
-    );
-  } else {
-    return (
-      <>
-        <Avatar className={classes.avatar}>
-          <small>{user.wallet} $</small>
-        </Avatar>
-      </>
-    );
-  }
+  console.log(props);
+
+  return (
+    <>
+      <Avatar className={classes.avatar}>
+        <small>{user.wallet} $</small>
+      </Avatar>
+    </>
+  );
 };
 
 export default Money;
