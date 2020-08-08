@@ -104,8 +104,8 @@ const Item = (props) => {
         const { message } = data;
         if (!message.msgError) {
           ItemService.postBought(props.item._id);
-          props.updateItems();
           clearInterval(handle);
+          props.updateItems();
         } else if (message.msgBody === "UnAuthorized") {
           //this means that the jwt token has expired
           setMessage(message);
@@ -124,6 +124,13 @@ const Item = (props) => {
     setInterval(() => {
       element.style.backgroundColor = "#F85C4D";
     }, 1000);
+  };
+
+  // make bought gray when it's bought
+  const greyBought = (item) => {
+    if (item.bought === true) {
+      return "#808080";
+    } else return "#77C3EC";
   };
 
   const changeBoughtColor = (item) => {
@@ -189,7 +196,7 @@ const Item = (props) => {
           fullWidth
           variant="contained"
           style={{
-            backgroundColor: "#77C3EC",
+            backgroundColor: greyBought(props.item),
             color: "#FFFFFF",
           }}
           className={classes.submit}
